@@ -1,5 +1,3 @@
-/ A C++ Program to Implement and Play Minesweeper
- 
 #include<bits/stdc++.h>
 using namespace std;
  
@@ -8,21 +6,20 @@ using namespace std;
 #define ADVANCED 2
 #define MAXSIDE 25
 #define MAXMINES 99
-#define MOVESIZE 526 // (25 * 25 - 99)
+#define MOVESIZE 526 
  
-int SIDE ; // side length of the board
-int MINES ; // number of mines on the board
+int SIDE ; 
+int MINES ; 
  
-//  Function to check whether given cell (row, col) is a valid cell or not
+
 bool isValid(int row, int col)
 {
-    // Returns true if row number and column number is in range
+    
     return (row >= 0) && (row < SIDE) &&
            (col >= 0) && (col < SIDE);
 }
  
-//  Function to check whether given cell (row, col) has a mine or not.
- 
+
 bool isMine (int row, int col, char board[][MAXSIDE])
 {
     if (board[row][col] == '*')
@@ -31,16 +28,16 @@ bool isMine (int row, int col, char board[][MAXSIDE])
         return (false);
 }
  
-// A Function to get the user's move
+
 void makeMove(int *x, int *y)
 {
-    // Take the input move
+    
     printf("Enter your move, (row, column) -> ");
     scanf("%d %d", x, y);
     return;
 }
  
-// A Function to print the current gameplay board
+
 void printBoard(char myBoard[][MAXSIDE])
 {
     int i, j;
@@ -62,8 +59,6 @@ void printBoard(char myBoard[][MAXSIDE])
     }
     return;
 }
- 
-// A Function to count the number of mines in the adjacent cells
 
 int countAdjacentMines(int row, int col, int mines[][2],
                       char realBoard[][MAXSIDE])
@@ -72,55 +67,43 @@ int countAdjacentMines(int row, int col, int mines[][2],
     int i;
     int count = 0;
  
-        // Only process this cell if this is a valid one
         if (isValid (row-1, col) == true)
         {
                if (isMine (row-1, col, realBoard) == true)
                count++;
         }
  
-    
- 
-        // Only process this cell if this is a valid one
         if (isValid (row+1, col) == true)
         {
                if (isMine (row+1, col, realBoard) == true)
                count++;
         }
  
-        // Only process this cell if this is a valid one
         if (isValid (row, col+1) == true)
         {
             if (isMine (row, col+1, realBoard) == true)
                count++;
         }
  
- 
-        // Only process this cell if this is a valid one
+  
         if (isValid (row, col-1) == true)
         {
                if (isMine (row, col-1, realBoard) == true)
                count++;
         }
- 
-        // Only process this cell if this is a valid one
+
         if (isValid (row-1, col+1) == true)
         {
             if (isMine (row-1, col+1, realBoard) == true)
                count++;
         }
- 
 
- 
-        // Only process this cell if this is a valid one
         if (isValid (row-1, col-1) == true)
         {
              if (isMine (row-1, col-1, realBoard) == true)
                count++;
         }
-
  
-        // Only process this cell if this is a valid one
         if (isValid (row+1, col+1) == true)
         {
                if (isMine (row+1, col+1, realBoard) == true)
@@ -128,8 +111,6 @@ int countAdjacentMines(int row, int col, int mines[][2],
         }
  
    
- 
-        // Only process this cell if this is a valid one
         if (isValid (row+1, col-1) == true)
         {
             if (isMine (row+1, col-1, realBoard) == true)
@@ -139,19 +120,17 @@ int countAdjacentMines(int row, int col, int mines[][2],
     return (count);
 }
  
-// A Recursive Function to play the Minesweeper Game
+
 bool playMinesweeperUtil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE],
             int mines[][2], int row, int col, int *movesLeft)
 {
  
-    // Base Case of Recursion
+    
     if (myBoard[row][col] != '-')
         return (false);
  
     int i, j;
  
-    // You opened a mine
-    // You are going to lose
     if (realBoard[row][col] == '*')
     {
         myBoard[row][col]='*';
@@ -166,8 +145,6 @@ bool playMinesweeperUtil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE],
  
     else
      {
-        // Calculate the number of adjacent mines and put it
-        // on the board
         int count = countAdjacentMines(row, col, mines, realBoard);
         (*movesLeft)--;
  
@@ -176,49 +153,38 @@ bool playMinesweeperUtil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE],
         if (!count)
         {
             
-            // Only process this cell if this is a valid one
             if (isValid (row-1, col) == true)
             {
                    if (isMine (row-1, col, realBoard) == false)
                    playMinesweeperUtil(myBoard, realBoard, mines, row-1, col, movesLeft);
             }
  
-     
- 
-            // Only process this cell if this is a valid one
             if (isValid (row+1, col) == true)
             {
                    if (isMine (row+1, col, realBoard) == false)
                     playMinesweeperUtil(myBoard, realBoard, mines, row+1, col, movesLeft);
             }
  
- 
-            // Only process this cell if this is a valid one
             if (isValid (row, col+1) == true)
             {
                 if (isMine (row, col+1, realBoard) == false)
                     playMinesweeperUtil(myBoard, realBoard, mines, row, col+1, movesLeft);
             }
  
-       
- 
-            // Only process this cell if this is a valid one
             if (isValid (row, col-1) == true)
             {
                    if (isMine (row, col-1, realBoard) == false)
                     playMinesweeperUtil(myBoard, realBoard, mines, row, col-1, movesLeft);
             }
  
-        
- 
-            // Only process this cell if this is a valid one
+           
             if (isValid (row-1, col+1) == true)
             {
                 if (isMine (row-1, col+1, realBoard) == false)
                     playMinesweeperUtil(myBoard, realBoard, mines, row-1, col+1, movesLeft);
             }
  
-             
+             //----------- 6th Neighbour (North-West) ------------
  
             // Only process this cell if this is a valid one
             if (isValid (row-1, col-1) == true)
@@ -227,17 +193,11 @@ bool playMinesweeperUtil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE],
                     playMinesweeperUtil(myBoard, realBoard, mines, row-1, col-1, movesLeft);
             }
  
- 
-            // Only process this cell if this is a valid one
             if (isValid (row+1, col+1) == true)
             {
                  if (isMine (row+1, col+1, realBoard) == false)
                     playMinesweeperUtil(myBoard, realBoard, mines, row+1, col+1, movesLeft);
             }
- 
-            
- 
-            // Only process this cell if this is a valid one
             if (isValid (row+1, col-1) == true)
             {
                 if (isMine (row+1, col-1, realBoard) == false)
@@ -249,30 +209,28 @@ bool playMinesweeperUtil(char myBoard[][MAXSIDE], char realBoard[][MAXSIDE],
     }
 }
  
-// A Function to place the mines randomly on the board
+
 void placeMines(int mines[][2], char realBoard[][MAXSIDE])
 {
     bool mark[MAXSIDE*MAXSIDE];
  
     memset (mark, false, sizeof (mark));
  
-    // Continue until all random mines have been created.
+   
     for (int i=0; i<MINES; )
      {
         int random = rand() % (SIDE*SIDE);
         int x = random / SIDE;
         int y = random % SIDE;
  
-        // Add the mine if no mine is placed at this
-        // position on the board
+       
         if (mark[random] == false)
         {
-            // Row Index of the Mine
+          
             mines[i][0]= x;
-            // Column Index of the Mine
+           
             mines[i][1] = y;
  
-            // Place the mine
             realBoard[mines[i][0]][mines[i][1]] = '*';
             mark[random] = true;
             i++;
@@ -285,11 +243,9 @@ void placeMines(int mines[][2], char realBoard[][MAXSIDE])
 // A Function to initialise the game
 void initialise(char realBoard[][MAXSIDE], char myBoard[][MAXSIDE])
 {
-    // Initiate the random number generator so that
-    // the same configuration doesn't arises
+  
     srand(time (NULL));
  
-    // Assign all the cells as mine-free
     for (int i=0; i<SIDE; i++)
     {
         for (int j=0; j<SIDE; j++)
@@ -301,8 +257,7 @@ void initialise(char realBoard[][MAXSIDE], char myBoard[][MAXSIDE])
     return;
 }
  
-// A Function to cheat by revealing where the mines are
-// placed.
+
 void cheatMinesweeper (char realBoard[][MAXSIDE])
 {
     printf ("The mines locations are-\n");
@@ -310,17 +265,12 @@ void cheatMinesweeper (char realBoard[][MAXSIDE])
     return;
 }
  
-// A function to replace the mine from (row, col) and put
-// it to a vacant space
 void replaceMine (int row, int col, char board[][MAXSIDE])
 {
     for (int i=0; i<SIDE; i++)
     {
         for (int j=0; j<SIDE; j++)
             {
-                // Find the first location in the board
-                // which is not having a mine and put a mine
-                // there.
                 if (board[i][j] != '*')
                 {
                     board[i][j] = '*';
@@ -332,33 +282,22 @@ void replaceMine (int row, int col, char board[][MAXSIDE])
     return;
 }
  
-// A Function to play Minesweeper game
+
 void playMinesweeper ()
 {
-    // Initially the game is not over
+    
     bool gameOver = false;
  
-    // Actual Board and My Board
     char realBoard[MAXSIDE][MAXSIDE], myBoard[MAXSIDE][MAXSIDE];
  
     int movesLeft = SIDE * SIDE - MINES, x, y;
-    int mines[MAXMINES][2]; // stores (x,y) coordinates of all mines.
+    int mines[MAXMINES][2];
  
       initialise (realBoard, myBoard);
  
-    // Place the Mines randomly
+    
     placeMines (mines, realBoard);
  
-     /*
-     If you want to cheat and know
-     where mines are before playing the game
-     then uncomment this part
- 
-     cheatMinesweeper(realBoard);
-     */
- 
-    // You are in the game until you have not opened a mine
-    // So keep playing
  
     int currentMoveIndex = 0;
     while (gameOver == false)
@@ -367,13 +306,9 @@ void playMinesweeper ()
         printBoard (myBoard);
         makeMove (&x, &y);
  
-        // This is to guarantee that the first move is
-        // always safe
-        // If it is the first move of the game
         if (currentMoveIndex == 0)
         {
-            // If the first move itself is a mine
-            // then we remove the mine from that location
+            
             if (isMine (x, y, realBoard) == true)
                 replaceMine (x, y, realBoard);
         }
@@ -391,16 +326,10 @@ void playMinesweeper ()
     return;
 }
  
-// A Function to choose the difficulty level
-// of the game
+
 void chooseDifficultyLevel ()
 {
-    /*
-    --> BEGINNER = 9 * 9 Cells and 10 Mines
-    --> INTERMEDIATE = 16 * 16 Cells and 40 Mines
-    --> ADVANCED = 24 * 24 Cells and 99 Mines
-    */
- 
+   
     int level;
  
     printf ("Enter the Difficulty Level\n");
@@ -433,11 +362,7 @@ void chooseDifficultyLevel ()
  
 int main()
 {
-    /* Choose a level between
-    --> BEGINNER = 9 * 9 Cells and 10 Mines
-    --> INTERMEDIATE = 16 * 16 Cells and 40 Mines
-    --> ADVANCED = 24 * 24 Cells and 99 Mines
-    */
+    
     chooseDifficultyLevel ();
  
     playMinesweeper ();
